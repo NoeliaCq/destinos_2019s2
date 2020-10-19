@@ -1,0 +1,47 @@
+import viajes.*
+
+test "Excursiones" {
+	const ciudad1 = new ExcursionALaCiudad(cantAtracciones=4)
+	const ciudad2 = new ExcursionACiudadTropical(cantAtracciones=4)
+	const ciudad3 = new ExcursionALaCiudad(cantAtracciones=8)
+	const ciudad4 = new ExcursionACiudadTropical(cantAtracciones=8)
+	const ciudad5 = new ExcursionACiudadTropical(cantAtracciones=10)
+	
+	assert.equals(2, ciudad1.cantDias())
+	assert.notThat(ciudad1.implicaEsfuerzo())
+	assert.notThat(ciudad1.sirveParaBroncearse())
+	
+	assert.equals(3, ciudad2.cantDias())
+	assert.notThat(ciudad2.implicaEsfuerzo())
+	assert.that(ciudad2.sirveParaBroncearse())
+	
+	assert.equals(4, ciudad3.cantDias())
+	assert.that(ciudad3.implicaEsfuerzo())
+	assert.notThat(ciudad3.sirveParaBroncearse())
+	
+	assert.equals(5, ciudad4.cantDias())
+	assert.that(ciudad4.implicaEsfuerzo())
+	assert.that(ciudad4.sirveParaBroncearse())
+	
+	assert.equals(6, ciudad5.cantDias())
+	assert.notThat(ciudad5.implicaEsfuerzo())
+	assert.that(ciudad5.sirveParaBroncearse())
+}
+
+test "Trekking" {
+	const salida1 = new SalidaDeTrekking(kmSenderos=100, diasDeSolPorAnio=130)
+	const salida2 = new SalidaDeTrekking(kmSenderos=50, diasDeSolPorAnio=240)
+	const salida3 = new SalidaDeTrekking(kmSenderos=250, diasDeSolPorAnio=130)
+	
+	assert.equals(2, salida1.cantDias())
+	assert.that(salida1.implicaEsfuerzo())
+	assert.notThat(salida1.sirveParaBroncearse())
+	
+	assert.equals(1, salida2.cantDias())
+	assert.notThat(salida2.implicaEsfuerzo())
+	assert.that(salida2.sirveParaBroncearse())
+	
+	assert.equals(5, salida3.cantDias())
+	assert.that(salida3.implicaEsfuerzo())
+	assert.that(salida3.sirveParaBroncearse())
+}

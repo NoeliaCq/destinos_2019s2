@@ -3,7 +3,8 @@ class Socio {
 	const  actividadesRealizadas = #{}
 	var property cantMaximaDeActividades
 	var property edad
-	var property idiomasHablados = #{}
+	var property idiomas = #{}
+	var property actividadAtractiva = true
 	
 	method esAdoradorDelSol() {
 		return actividadesRealizadas.all({act => act.sirveParaBroncearse()})
@@ -20,9 +21,7 @@ class Socio {
 			self.error("Error: Cantidad máxima de actividades a realizar alcanzada")
 		}
 	}
-	method actividadAtractiva(actividad) {
-		return true
-	}
+
 }
 class SocioTranquilo inherits Socio {
 	override method actividadAtractiva(actividad) {
@@ -38,6 +37,6 @@ class SocioCoherente inherits Socio {
 }
 class SocioRelajado inherits Socio {
 	override method actividadAtractiva(actividad) {
-		return actividad.idiomas().any({idioma => self.idiomasHablados().contains(idioma)})
+		return actividad.idiomas().any({idioma => self.idiomas().contains(idioma)})
 	}
 }

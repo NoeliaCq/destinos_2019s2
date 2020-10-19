@@ -1,14 +1,16 @@
 import socios.*
 class Viaje {
 	var property idiomas = #{}
-	var property implicaEsfuerzo
-	var property sirveParaBroncearse
-	var property cantDias	
+	var property implicaEsfuerzo = true
+	var property sirveParaBroncearse = true
+	var property cantDias = 0
 	method esInteresante() {
 		return idiomas.size() > 1
 	}
 	method esRecomendadaParaSocio(socio) {
-		return self.esInteresante() and socio.actividadAtractiva(self) and not socio.actividadesRealizadas().contains(self)
+		return self.esInteresante() and 
+		socio.actividadAtractiva(self) and 
+		not socio.actividadesRealizadas().contains(self)
 	}
 }
 class ViajeDePlaya inherits Viaje {
@@ -47,23 +49,23 @@ class ExcursionACiudadTropical inherits ExcursionALaCiudad {
 	}
 }
 class SalidaDeTrekking inherits Viaje {
-	var property ksmDeSenderos
+	var property kmSenderos
 	var property diasDeSolPorAnio
 	override method cantDias() {
-		return ksmDeSenderos / 50
+		return kmSenderos / 50
 	}
 	override method implicaEsfuerzo() {
-		return ksmDeSenderos > 80
+		return kmSenderos > 80
 	}
 	override method sirveParaBroncearse() {
-		return (diasDeSolPorAnio > 200) or (diasDeSolPorAnio.between(100, 200) and ksmDeSenderos > 120 )
+		return (diasDeSolPorAnio > 200) or (diasDeSolPorAnio.between(100, 200) and kmSenderos > 120 )
 	}
 	override method esInteresante() {
 		return super() and diasDeSolPorAnio > 140
 	}
 	
 }
-class ClasesDeGimnasia inherits Viaje {
+class ClaseDeGimnasia inherits Viaje {
 	override method idiomas() {
 		return #{"español"}
 	}
@@ -82,19 +84,30 @@ class ClasesDeGimnasia inherits Viaje {
 }
 class TallerLiterario inherits Viaje {
 	var property librosTrabajados = #{}
-	method idiomasUsados() {
+	
+	override method idiomas() {
 		return librosTrabajados.map({libro=> libro.idioma()}).asSet()
 	}
-	method diasQueLleva() {
+	override method cantDias() {
 		return librosTrabajados.size() + 1
 	}
-	/*method librosDeUnSoloAutor() {
+	///////////revisar////////////////
+	override method implicaEsfuerzo() {
+		return librosTrabajados.any({libro=> libro.cantPaginas() > 500}) or 
+		self.autoresTrabajados().size() > 1
+	}
+	method autoresTrabajados() { 
 		return librosTrabajados.map({libro=> libro.nombreDelAutor()})
 	}
-	override method implicaEsfuerzo() {
-		return librosTrabajados.any({libro=> libro.cantPaginas()} > 500) or librosTrabajados.all({libro => libro.nombreDelAutor()})
-	}*/
+	/////////////////////////////////
+	override method sirveParaBroncearse() {
+		return false
+	}
+	override method esRecomendadaParaSocio(socio) {
+		return socio.idiomas().size() > 1
+	}
 }
+	
 class Libro {
 	var property idioma
 	var property cantPaginas

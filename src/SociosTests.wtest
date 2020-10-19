@@ -1,0 +1,41 @@
+import socios.*
+import viajes.*
+
+test "socios" {
+	/////Roque/////
+	const roque = new Socio(cantMaximaDeActividades=2)
+	const viaje1 = new ViajeDePlaya(largoDePlaya=1000)
+	const viaje2 = new ViajeDePlaya(largoDePlaya=2000)
+	const claseGym = new ClaseDeGimnasia()
+	
+	roque.actividadesRealizadas(viaje1)
+	roque.actividadesRealizadas(viaje2)
+	
+	assert.that(roque.esAdoradorDelSol())
+	assert.equals(#{viaje2}, roque.actividadesEsforzadas())
+	//roque.actividadesRealizadas(claseGym)
+	
+	/////Ana//////
+	const ana = new Socio(cantMaximaDeActividades=3)
+	ana.actividadesRealizadas(viaje1)
+	ana.actividadesRealizadas(viaje2)
+	
+	assert.that(ana.esAdoradorDelSol())
+	assert.equals(#{viaje2}, ana.actividadesEsforzadas())
+	
+	ana.actividadesRealizadas(claseGym)
+	
+	assert.notThat(ana.esAdoradorDelSol())
+	assert.equals(#{viaje2, claseGym}, ana.actividadesEsforzadas())
+	
+	//////socio relajado////////
+	const marley = new SocioRelajado(idiomas=#{"español", "quechua"})
+	const act1 = new ClaseDeGimnasia()
+	const act2 = new ViajeDePlaya(idiomas = #{"quechua", "aymara"})
+	const act3 = new ViajeDePlaya(idiomas = #{"frances", "italiano"})
+	
+	assert.that(marley.actividadAtractiva(act1))
+	assert.that(marley.actividadAtractiva(act2))
+	assert.notThat(marley.actividadAtractiva(act3))
+	
+}
